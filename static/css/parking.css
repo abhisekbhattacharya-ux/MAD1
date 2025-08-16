@@ -1,0 +1,308 @@
+/* Modern font from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f9f9f9;
+    margin: 0;
+    background-image: url('../../static/images/parking_bg.jpg');
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: white;
+    padding: 0.8rem 2rem;
+    border-bottom: 1px solid #ddd;
+}
+.navbar-title {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 20px;
+    font-weight: 600;
+    color: #333;
+}
+
+.navbar-header {
+    font-size: 1.3rem;
+    font-weight: 600;
+}
+
+.navbar-links a {
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+    margin: 0 8px;
+}
+
+.navbar-links a:hover {
+    color: #0d6efd;
+}
+
+/* Top navbar links aligned right */
+.navbar .navbar-links {
+    margin-left: auto;
+}
+
+/* Second navbar (breadcrumb-style) links centered */
+.navbar + .navbar {
+    justify-content: center;
+}
+
+.flash-container {
+    background-color: #007bff;
+    color: white;
+    padding: 12px 20px;
+    margin: 15px auto;
+    width: 80%;
+    text-align: center;
+    border-radius: 6px;
+    font-weight: 500;
+}
+
+.container {
+    padding: 2rem;
+}
+
+
+/* Forms */
+form {
+    background-color: #eeeeee;
+    padding: 1.5rem;
+    border-radius: 10px;
+    margin-top: 1rem;
+}
+
+
+
+/* Responsive content wrapper */
+.container-box {
+    background-color: #ffffff;
+    max-width: 960px;
+    margin: 2rem auto;
+    padding: 2rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+}
+
+/* Grey box form styling */
+form {
+    background-color: #eee;
+    padding: 2rem;
+    border-radius: 10px;
+    margin-top: 1rem;
+}
+
+form label {
+    font-weight: 600;
+}
+
+form input,
+form select,
+form textarea {
+    width: 100%;
+    padding: 0.6rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+
+/* Submit buttons */
+/* Base button style */
+button,
+input[type="submit"],
+.btn {
+  background-color: #0d6efd;
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  font-size: 15px;
+  font-weight: 500;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  font-family: 'Inter', sans-serif;
+}
+
+/* Hover and focus states */
+button:hover,
+input[type="submit"]:hover,
+.btn:hover {
+  background-color: #0b5ed7;
+  transform: translateY(-1px);
+}
+
+/* Disabled state */
+button:disabled,
+input[type="submit"]:disabled,
+.btn:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Danger button (e.g., Delete) */
+.btn-danger {
+  background-color: #dc3545;
+}
+.btn-danger:focus,
+.btn-danger:active {
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+.btn-danger:hover {
+  background-color: #bb2d3b;
+}
+
+/* Secondary button (e.g., Cancel, View) */
+.btn-secondary {
+  background-color: #6c757d;
+}
+
+.btn-secondary:hover {
+  background-color: #5a6268;
+}
+
+/* Responsive behavior */
+@media screen and (max-width: 768px) {
+    .container-box {
+        padding: 1rem;
+        margin: 1rem;
+    }
+
+    .top-links a {
+        display: block;
+        margin: 0.5rem 0;
+    }
+    .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .navbar-header {
+        text-align: center;
+        width: 100%;
+        margin-bottom: 1rem;
+    }
+
+    .navbar-links {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .container {
+        margin: 1rem;
+        padding: 1rem;
+    }
+    .admin-table th,
+    .admin-table td {
+        padding: 10px 12px;
+        font-size: 14px;
+    }
+}
+
+.table-container {
+    background-color: #f8f9fa; /* Light grey background */
+    padding: 1.5rem;
+    border-radius: 1rem; /* rounded edges */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.table-custom {
+    border: 2px solid #dee2e6; /* subtle border */
+    border-radius: 12px;
+    overflow: hidden; /* keeps rounded edges */
+}
+
+.table-custom thead {
+    text-align: center;
+}
+
+.table-custom tbody tr td {
+    vertical-align: middle;
+}
+
+.table-custom tbody tr td:first-child {
+    font-weight: bold; /* Spot ID */
+    text-align: center;
+}
+
+/* Badge styling */
+.badge {
+    font-size: 0.9rem;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+}
+
+/* Row highlighting by status */
+tr.occupied {
+    background-color: #f8d7da; /* light red */
+}
+
+tr.available {
+    background-color: #d4edda; /* light green */
+}
+
+/* Table styling */
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.admin-table th,
+.admin-table td {
+    padding: 12px 16px;
+    text-align: left;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.admin-table th {
+    background-color: #f5f5f5;
+    font-weight: 600;
+    font-size: 16px;
+    color: #333;
+}
+
+.admin-table tr:hover {
+    background-color: #f0f8ff;
+}
+
+.admin-table td {
+    font-size: 15px;
+    color: #444;
+}
+
+/* Action buttons */
+.action-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+
+.table td a.btn, .table td button.btn {
+  margin-right: 6px;
+  font-weight: 500;
+  transition: all 0.2s ease-in-out;
+}
+
+.table td a.btn:hover, .table td button.btn:hover {
+  transform: scale(1.05);
+}
+
+/* Disabled delete button styling */
+.btn-secondary[disabled] {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+
+
+
