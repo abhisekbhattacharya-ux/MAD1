@@ -1,0 +1,159 @@
+{% extends "master.html" %}
+
+{% block title %}User Dashboard{% endblock %}
+
+{% block content %}
+<div class="container-box">
+    <div class="row">
+        <div class="col-12 text-center mb-4">
+            <h2 class="fw-bold">Welcome, {{ current_user.fullname }}</h2>
+        </div>
+    </div>
+
+    <!-- Available Lots Table -->
+    <div class="row mt-5">
+        <div class="col-12">
+            <div class="card shadow rounded-4">
+                <div class="card-header bg-dark text-white rounded-top-4">
+                    <h5 class="mb-0">Available Parking Spots</h5>
+                </div>
+                <div class="table-container table-responsive">
+                    {% if lots %}
+                        <table class="admin-table table-hover align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th scope="col">Name</th> 
+                                    <th scope="col">Address</th>
+                                    <th scope="col">Pin Code</th>
+                                    <th scope="col">Available Spots</th>
+                                    <th scope="col">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for lot in lots %}
+                                    <tr>
+                                        <td>{{ lot.prime_location_name }}</td>
+                                        <td>{{ lot.address }}</td>
+                                        <td>{{ lot.pin_code }}</td>
+                                        <td>{{ lot.available_spots }}</td>
+                                        <td class="text-center">
+                                            {% if lot.available_spots > 0 %}
+                                                <a href="{{ url_for('book_spot', lot_id=lot.id) }}" class="btn btn-sm btn-primary rounded-3 px-3">Book Spot</a>
+                                            {% else %}
+                                                <span class="text-muted">No Spots</span>
+                                            {% endif %}
+                                        </td>
+
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    {% else %}
+                        <p class="text-muted">No parking lots available.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-5">
+        <div class="col-12">
+            <div class="card shadow rounded-4">
+                <div class="card-header bg-primary text-white rounded-top-4">
+                    <h5 class="mb-0">My Active Reservations</h5>
+                </div>
+                <div class="card-body">
+                    {% if reservations %}
+                        <div class="table-container">
+                            <table class="admin-table table-hover align-middle">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Lot Name</th>
+                                        <th>Address</th>
+                                        <th>Pin Code</th>
+                                        <th>Spot</th>
+                                        <th>Start Time</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for r in reservations if r.spot.status == 'O' %}
+                                    <tr>
+                                        <td>{{ r.spot.lot.prime_location_name }}</td>
+                                        <td>{{ r.spot.lot.address }}</td>
+                                        <td>{{ r.spot.lot.pin_code }}</td>
+                                        <td>{{ r.spot.spot_number }}</td>
+                                        <td>{{ r.start_time.strftime('%Y-%m-%d %H:%M') }}</td>
+                                        <td class="text-center align-middle p-0">
+                                            <form action="{{ url_for('release_spot', reservation_id=r.id) }}" method="post" class="d-inline">
+                                                <button type="submit" class="btn btn-sm btn-success rounded-pill border-0">
+                                                    Release
+                                                </button>
+                                            </form>
+                                        </td>
+
+                                    </tr>
+                                    {% else %}
+                                    <tr>
+                                        <td colspan="6" class="text-center text-muted">No active reservations.</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% else %}
+                        <p class="text-muted">No reservations yet.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+        <!-- Bar Chart Summary -->
+        <div class="col-12 col-lg-6">
+            <div class="card shadow rounded-4">
+                <div class="card-header bg-info text-white rounded-top-4">
+                    <h5 class="mb-0">Spots Booked by Location</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="lotChart" height="300"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<!-- Chart Script -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const lotData = {{ lot_data | safe }};
+    const labels = Object.keys(lotData);
+    const data = Object.values(lotData);
+
+    const ctx = document.getElementById('lotChart').getContext('2d');
+    const lotChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Bookings',
+                data: data,
+                backgroundColor: '#0d6efd',
+                borderRadius: 8
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: { stepSize: 1 }
+                }
+            }
+        }
+    });
+</script>
+{% endblock %}

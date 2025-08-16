@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}My Reservations{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+  <h2 class="mb-4">My Reservations</h2>
+  {% if reservations %}
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">Lot Name</th>
+          <th scope="col">Spot Number</th>
+          <th scope="col">Start Time</th>
+          <th scope="col">End Time</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for r in reservations %}
+          <tr>
+            <td>{{ r.spot.lot.prime_location_name }}</td>
+            <td>{{ r.spot.spot_number }}</td>
+            <td>{{ r.start_time.strftime('%Y-%m-%d %H:%M') }}</td>
+            <td>{{ r.end_time.strftime('%Y-%m-%d %H:%M') }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>You have no current reservations.</p>
+  {% endif %}
+</div>
+{% endblock %}

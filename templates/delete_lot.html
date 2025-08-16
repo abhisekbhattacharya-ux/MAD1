@@ -1,0 +1,18 @@
+{% extends 'master.html' %}
+{% block content %}
+<div class="container-box">
+    <div class="col-md-6 shadow p-4 mb-5 bg-white rounded text-center">
+        <h4 class="mb-4">Delete Parking Lot</h4>
+        <p>Are you sure you want to delete the parking lot:</p>
+        <h5 class="text-danger">{{ lot.prime_location_name }}</h5>
+        <p><strong>Address:</strong> {{ lot.address }}</p>
+
+        <form method="POST" action="{{ url_for('delete_lot', lot_id=lot.id) }}">
+            <div class="d-flex justify-content-center mt-4">
+                <a href="{{ url_for('dashboard_admin') }}" class="btn btn-secondary me-3">Cancel</a>
+                <button type="submit" class="btn btn-danger">Delete</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

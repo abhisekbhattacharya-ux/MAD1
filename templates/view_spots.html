@@ -1,0 +1,44 @@
+{% extends 'master.html' %}
+{% block title %}Parking Lot Details{% endblock %}
+{% block content %}
+<div class="container-box">
+  <div class="bg-white p-4 shadow rounded-4">
+  <h2 class="text-center mb-4">Parking Spots in {{ lot.prime_location_name }}</h2>
+  <table class="admin-table table-hover align-middle">
+    <thead class="table-dark text-center">
+      <tr>
+        <th>Spot ID</th>
+        <th>Status</th>
+        <th>User</th>
+        <th>Parked At</th>
+        <th>Leaving At</th>
+      </tr>
+    </thead>
+    <tbody  class="table-light">
+      {% for spot in spots %}
+      <tr>
+        <td class="text-center fw-bold">{{ spot.id }}</td>
+        <td class="text-center">
+          {% if spot.status == 'O' %}
+            <span class="badge bg-danger px-3 py-2">Occupied</span>
+          {% else %}
+            <span class="badge bg-success px-3 py-2">Available</span>
+          {% endif %}
+        </td>
+        {% set reservation = spot.reservations[-1] if spot.reservations else None %}
+        <td>
+          {% if reservation %}
+            {{ reservation.user.fullname }}
+          {% else %}
+            -
+          {% endif %}
+        </td>
+        <td class="text-center">{{ reservation.start_time if reservation else "-" }}</td>
+        <td class="text-center">{{ reservation.end_time if reservation else "-" }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  </div>
+</div>
+{% endblock %}

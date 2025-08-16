@@ -1,0 +1,29 @@
+{% extends 'master.html' %}
+
+{% block content %}
+<div class="container-box">
+<h2>Add Parking Lot</h2>
+<form method="POST" action="">
+    {{ form.hidden_tag() }}
+    <div class="form-group">
+        {{ form.prime_location_name.label }}<br>
+        {{ form.prime_location_name(size=40) }}
+    </div>
+    <div class="form-group">
+        {{ form.address.label }}<br>
+        {{ form.address(size=60) }}
+    </div>
+    <div class="form-group">
+        {{ form.pin_code.label }}<br>
+        {{ form.pin_code(size=10) }}
+    </div>
+    <div class="form-group">
+        {{ form.maximum_spots.label }}<br>
+        {{ form.maximum_spots(size=10) }}
+    </div>
+    <div class="form-group">
+        {{ form.submit(class="btn") }}
+    </div>
+</form>
+</div>
+{% endblock %}

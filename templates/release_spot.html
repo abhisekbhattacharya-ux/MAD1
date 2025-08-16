@@ -1,0 +1,15 @@
+{% extends 'master.html' %}
+
+{% block content %}
+<h2>Release Parking Spot</h2>
+<form method="POST" action="">
+    {{ form.hidden_tag() }}
+    <div class="form-group">
+        {{ form.reservation_id.label }}<br>
+        {{ form.reservation_id() }}
+    </div>
+    <div class="form-group">
+        {{ form.submit(class="btn") }}
+    </div>
+</form>
+{% endblock %}

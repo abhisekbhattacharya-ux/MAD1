@@ -1,0 +1,127 @@
+{% extends "master.html" %}
+
+{% block title %}Parking Statistics{% endblock %}
+
+{% block content %}
+<div class="container-box">
+    <h2 class="mb-4 fw-bold text-center">Parking Statistics</h2>
+
+    <div class="row g-4">
+        <!-- Yearly Parking Per Lot -->
+        <div class="col-12">
+            <div class="card shadow rounded-4">
+                <div class="card-header bg-dark text-white rounded-top-4">
+                    <h5 class="mb-0">Yearly Parking Per Lot</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="yearlyChart" height="120"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Parking by Time of Day -->
+        <div class="col-md-6">
+            <div class="card shadow rounded-4">
+                <div class="card-header bg-primary text-white rounded-top-4">
+                    <h5 class="mb-0">Parking by Time of Day</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="timeOfDayChart" height="300"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Parking by Month in Current Year -->
+        <div class="col-md-6">
+            <div class="card shadow rounded-4">
+                <div class="card-header bg-info text-white rounded-top-4">
+                    <h5 class="mb-0">Monthly Parking - {{ current_year }}</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="monthlyChart" height="300"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Data passed from Flask (use real data in Python route)
+    const yearlyData = {{ yearly_data | safe }};      // { "Lot A": [120, 130, ..., 150], "Lot B": [...] }
+    const timeOfDayData = {{ time_of_day_data | safe }}; // { "Morning": 100, "Afternoon": 80, "Evening": 120, "Night": 40 }
+    const monthlyData = {{ monthly_data | safe }};    // [Jan, Feb, ..., Dec]
+
+    // === Yearly Parking Per Lot (Line Chart) ===
+    const years = {{ years | safe }}; // e.g. [2021, 2022, 2023, 2024]
+    const datasets = Object.entries(yearlyData).map(([lot, data], idx) => ({
+        label: lot,
+        data: data,
+        borderColor: `hsl(${idx * 60}, 70%, 50%)`,
+        tension: 0.3,
+        fill: false
+    }));
+
+    new Chart(document.getElementById('yearlyChart'), {
+        type: 'line',
+        data: {
+            labels: years,
+            datasets: datasets
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { position: 'bottom' }
+            },
+            scales: {
+                y: { beginAtZero: true, ticks: { stepSize: 10 } }
+            }
+        }
+    });
+
+    // === Parking by Time of Day (Doughnut Chart) ===
+    new Chart(document.getElementById('timeOfDayChart'), {
+        type: 'doughnut',
+        data: {
+            labels: Object.keys(timeOfDayData),
+            datasets: [{
+                data: Object.values(timeOfDayData),
+                backgroundColor: ['#0d6efd', '#20c997', '#ffc107', '#dc3545']
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { position: 'bottom' }
+            }
+        }
+    });
+
+    // === Monthly Parking (Bar Chart) ===
+    new Chart(document.getElementById('monthlyChart'), {
+        type: 'bar',
+        data: {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            datasets: [{
+                label: 'Parkings',
+                data: monthlyData,
+                backgroundColor: '#0dcaf0',
+                borderRadius: 6
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { display: false }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: { stepSize: 10 }
+                }
+            }
+        }
+    });
+</script>
+{% endblock %}

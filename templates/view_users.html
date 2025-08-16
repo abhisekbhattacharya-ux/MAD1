@@ -1,0 +1,46 @@
+{% extends "master.html" %}
+
+{% block title %}All Registered Users{% endblock %}
+
+{% block content %}
+<div class="container-box">
+
+    <div class="card shadow rounded-4">
+        <div class="card-header bg-secondary text-white">
+            <h4 class="mb-0 text-center">Registered Users</h4>
+        </div>
+        <div class="table-container card-body table-responsive">
+            {% if user_data %}
+            <table class="admin-table table-striped table-hover">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Last Booking Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in user_data %}
+                    <tr>
+                        <td>{{ item.user.fullname }}</td>
+                        <td>{{ item.user.email }}</td>
+                        <td>{{ item.user.phone }}</td>
+                        <td>
+                            {% if item.last_booked %}
+                                {{ item.last_booked.strftime('%Y-%m-%d %H:%M') }}
+                            {% else %}
+                                <span class="text-muted">No bookings yet</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+                <p class="text-muted">No non-admin users found.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

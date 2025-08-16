@@ -1,0 +1,42 @@
+{% extends 'master.html' %}
+
+{% block content %}
+<div class="container-box">
+    <h2>Register</h2>
+    <form method="POST" action="">
+        {{ form.hidden_tag() }}
+        <div class="form-group">
+            {{ form.fullname.label }}
+            {{ form.fullname(size=32) }}
+        </div>
+        <div class="form-group">
+            {{ form.email.label }}
+            {{ form.email(size=32) }}
+        </div>
+        <div class="form-group">
+            {{ form.phone.label }}
+            {{ form.phone(size=32) }}
+        </div>
+        <div class="form-group">
+            {{ form.password.label }}
+            {{ form.password(size=16) }}
+        </div>
+        <div class="form-group">
+            {{ form.confirm_password.label }}
+            {{ form.confirm_password(size=16) }}
+        </div>
+        <div class="form-group">
+            {{ form.address.label }}
+            {{ form.address(size=100) }}
+        </div>
+        <div class="form-group">
+            {{ form.pincode.label }}
+            {{ form.pincode(size=6) }}
+        </div>
+        <div class="form-group">
+         <button type="submit" class="btn btn-sm">Sign-Up</button>
+        </div>
+    </form>
+    <p>Already have an account? <a href="{{ url_for('login') }}">Login here</a>.</p>
+</div>
+{% endblock %}
